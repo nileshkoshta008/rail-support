@@ -3,15 +3,21 @@ Database layer for Customer Support Environment
 SQLite persistence for tickets, actions, and knowledge base
 """
 
+import os
 import sqlite3
 import json
 from typing import List, Optional, Dict, Any
 from contextlib import contextmanager
 
+# Get the absolute path to the directory containing this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class Database:
-    def __init__(self, db_path: str = "support.db"):
-        self.db_path = db_path
+    def __init__(self, db_path: str = None):
+        if db_path is None:
+            self.db_path = os.path.join(BASE_DIR, "support.db")
+        else:
+            self.db_path = db_path
         self.init_db()
     
     @contextmanager
