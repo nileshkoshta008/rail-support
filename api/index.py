@@ -29,7 +29,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-db = Database()
+try:
+    db = Database()
+except Exception as e:
+    print(f"Database initialization failed: {e}")
+    db = None
+
 current_env: Optional[CustomerSupportEnv] = None
 
 

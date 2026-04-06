@@ -15,7 +15,11 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 class Database:
     def __init__(self, db_path: str = None):
         if db_path is None:
-            self.db_path = os.path.join(BASE_DIR, "support.db")
+            # Vercel has a read-only filesystem except for /tmp
+            if os.environ.get("VERCEL"):
+                self.db_path = "/tmp/support.db"
+            else:
+                self.db_path = os.path.join(BASE_DIR, "support.db")
         else:
             self.db_path = db_path
         self.init_db()
