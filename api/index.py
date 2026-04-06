@@ -8,6 +8,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import json
+import sys
+import os
+
+# Add root project path to sys.path so Vercel can find the modules
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from database import Database
 from env_support_rag import CustomerSupportEnv, Action, Ticket, HelpArticle, Observation
