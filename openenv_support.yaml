@@ -1,0 +1,63 @@
+version: "1.0"
+name: customer-support-triage
+display_name: "Customer Support Ticket Triage"
+description: |
+  RL environment where agent acts as Level 1 Support triage bot.
+  Routes tickets to Billing/Tech Support/Sales/Spam, sets priority.
+tags:
+  - nlp
+  - classification
+  - routing
+author: "OpenEnv"
+license: "MIT"
+
+observation:
+  type: object
+  properties:
+    tickets:
+      type: array
+      items:
+        type: object
+    completed_actions:
+      type: array
+      items:
+        type: string
+    total_reward:
+      type: number
+
+action:
+  type: object
+  properties:
+    action_type:
+      type: string
+      enum:
+        - route_ticket
+        - mark_spam
+    ticket_id:
+      type: string
+    department:
+      type: string
+      enum:
+        - Billing
+        - Tech Support
+        - Sales
+        - Spam
+      nullable: true
+    priority:
+      type: string
+      enum:
+        - Low
+        - Medium
+        - High
+      nullable: true
+  required:
+    - action_type
+    - ticket_id
+
+tasks:
+  - id: easy
+    name: "Route 1 Tech Support ticket"
+  - id: medium
+    name: "Route 3 tickets"
+  - id: hard
+    name: "Route 4 tickets + identify spam"

@@ -1,0 +1,34 @@
+version: "1.0"
+name: data-cleaning-triage
+display_name: "Data Cleaning Triage"
+description: |
+  RL environment where agent identifies data quality issues.
+  Classifies issue type (missing, duplicate, format, outlier, inconsistent, valid)
+  and applies corrections (drop, impute, flag, ignore).
+tags: [nlp, classification, data-quality]
+author: "OpenEnv"
+license: "MIT"
+
+observation:
+  type: object
+  properties:
+    records: { type: array }
+    completed_actions: { type: array, items: { type: string } }
+    total_reward: { type: number }
+
+action:
+  type: object
+  properties:
+    action_type: { type: string, enum: [classify_issue, apply_correction] }
+    record_id: { type: string }
+    issue_type: { type: string, enum: [missing, duplicate, format, outlier, inconsistent, valid], nullable: true }
+    correction: { type: string, enum: [drop, impute, flag, ignore], nullable: true }
+  required: [action_type, record_id]
+
+tasks:
+  - id: easy
+    name: "Single Dirty Record"
+  - id: medium
+    name: "3 Mixed Records"
+  - id: hard
+    name: "5 Records with Valid Ones"

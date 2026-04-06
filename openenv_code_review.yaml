@@ -1,0 +1,34 @@
+version: "1.0"
+name: code-review-triage
+display_name: "Code Review Triage"
+description: |
+  RL environment where agent acts as first-pass code reviewer.
+  Classifies PRs by type, priority, risk; detects spam/review-bombing.
+tags: [nlp, classification, code-review]
+author: "OpenEnv"
+license: "MIT"
+
+observation:
+  type: object
+  properties:
+    pull_requests: { type: array }
+    completed_actions: { type: array, items: { type: string } }
+    total_reward: { type: number }
+
+action:
+  type: object
+  properties:
+    action_type: { type: string, enum: [classify_pr, request_changes, approve, spam] }
+    pr_id: { type: string }
+    pr_type: { type: string, enum: [feature, bugfix, docs, refactor, hotfix], nullable: true }
+    priority: { type: string, enum: [Low, Medium, High, Critical], nullable: true }
+    risk_level: { type: string, enum: [low, medium, high], nullable: true }
+  required: [action_type, pr_id]
+
+tasks:
+  - id: easy
+    name: "Single Feature PR"
+  - id: medium
+    name: "3 Mixed PRs"
+  - id: hard
+    name: "5 PRs with Spam"
