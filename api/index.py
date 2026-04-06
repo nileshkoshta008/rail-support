@@ -53,9 +53,9 @@ class TaskStartRequest(BaseModel):
     task_level: str  # easy, medium, hard
 
 
-@app.get("/")
-def root():
-    return {"message": "Customer Support Triage API", "endpoints": ["/start", "/state", "/step", "/reset", "/kb", "/stats"]}
+@app.get("/api/health")
+def api_health():
+    return {"message": "Customer Support Triage API", "status": "online", "endpoints": ["/api/start", "/api/state", "/api/step", "/api/reset", "/api/kb", "/api/stats"]}
 
 
 @app.post("/start")
